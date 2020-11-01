@@ -31,19 +31,19 @@ page 98991 "Performance Profiler SubPage"
                     ToolTip = 'Specifies the object type which raised this event.';
                 }
 
+                field(ObjectName; Rec."Object Name")
+                {
+                    ApplicationArea = Basic, Suite;
+                    Editable = false;
+                    ToolTip = 'Specifies the object name which raised this event.';
+                }
+
                 field(ObjectId; Rec."Object Id")
                 {
                     ApplicationArea = Basic, Suite;
                     Editable = false;
                     Visible = false;
                     ToolTip = 'Specifies the object id which raised this event.';
-                }
-
-                field(ObjectName; Rec."Object Name")
-                {
-                    ApplicationArea = Basic, Suite;
-                    Editable = false;
-                    ToolTip = 'Specifies the object name which raised this event.';
                 }
 
                 field(Statement; Rec.Statement)

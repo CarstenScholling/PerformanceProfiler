@@ -68,6 +68,19 @@ page 98990 "Performance Profiler"
 
     actions
     {
+        area(Navigation)
+        {
+            action(Archive)
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Archive';
+                ToolTip = 'Use this action to show the list of archived recording sessions.';
+                Image = Archive;
+                Enabled = not ProfilerIsRunning;
+                RunObject = page "Perf. Profiler Archive List";
+            }
+        }
+
         area(Processing)
         {
             action(StartRecord)
@@ -110,7 +123,7 @@ page 98990 "Performance Profiler"
                 end;
             }
 
-            action(AnalyeEtlFile)
+            action(AnalyzeEtlFile)
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Analyze ETL File';
@@ -125,6 +138,36 @@ page 98990 "Performance Profiler"
                 trigger OnAction()
                 begin
                     PerformanceProfilerMgt.AnalyzeEtlFile(Rec.Code, Rec.Threshold);
+                    CurrPage.Update(false);
+                end;
+            }
+
+            action(CopyToArchive)
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Copy to Archive';
+                ToolTip = 'Use this action to copy the current profiler session to the archive.';
+                Image = Copy;
+                Enabled = not ProfilerIsRunning;
+
+                trigger OnAction()
+                begin
+                    Rec.CopyToArchive(false);
+                    CurrPage.Update(false);
+                end;
+            }
+
+            action(CopyFromArchive)
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Copy from Archive';
+                ToolTip = 'Use this action to copy an archived profiler session back.';
+                Image = Copy;
+                Enabled = not ProfilerIsRunning;
+
+                trigger OnAction()
+                begin
+                    Rec.CopyFromArchive(false);
                     CurrPage.Update(false);
                 end;
             }
