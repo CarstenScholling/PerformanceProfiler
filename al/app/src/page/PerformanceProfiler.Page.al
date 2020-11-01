@@ -47,13 +47,6 @@ page 98990 "Performance Profiler"
                         ToolTip = 'Specifies the session ID to record.';
                         Enabled = not ProfilerIsRunning;
                     }
-
-                    field(RecordAppName; Rec."App Name")
-                    {
-                        ApplicationArea = Basic, Suite;
-                        ToolTip = 'Specifies the App to filter.';
-                        Enabled = not ProfilerIsRunning;
-                    }
                 }
             }
 

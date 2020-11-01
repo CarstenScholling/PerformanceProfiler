@@ -39,16 +39,12 @@ table 98993 "Perf. Profiler Line Archive"
         {
             Caption = 'App Id';
             DataClassification = SystemMetadata;
-            TableRelation = "Published Application".ID;
-            ValidateTableRelation = false;
         }
 
         field(140; "App Name"; Text[150])
         {
             Caption = 'App Name';
             Editable = false;
-            TableRelation = "Published Application".Name;
-            ValidateTableRelation = false;
         }
 
         field(150; Identation; Integer)

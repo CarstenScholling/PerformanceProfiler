@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EtwPerformanceProfiler")]
+[assembly: AssemblyTitle("ETW Performance Profiler")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft IT")]
@@ -42,8 +42,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyVersion("2.1.0.0")]
+[assembly: AssemblyFileVersion("2.1.0.0")]
 
 [assembly: InternalsVisibleTo("EtwPerformanceProfilerTest, PublicKey=0024000004800000940000000602000000240000525341310004000001000100ed6292a619c76275e75166fb9277eb90a63d74f1b7154058a7c70521204cbcafecc17b288d8dce82bb955a22f5a6704d368edd0db1daa035c7e2da148a38aa2e51ff58f0773bc0af69762870abfd6144ddb07b6e3eb73ccfb2f968bd5150f660d25bd80825c384be63bbbccd7c8c3049ad338a1eb5debd45fbca2e07cc6e9dd3")]
 

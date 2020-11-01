@@ -52,26 +52,6 @@ table 98990 "Performance Profiler"
             BlankZero = true;
             MinValue = 0;
         }
-
-        field(220; "App Id"; Guid)
-        {
-            Caption = 'App ID';
-            TableRelation = "Published Application".ID;
-            ValidateTableRelation = false;
-
-            trigger OnValidate()
-            begin
-                CalcFields("App Name");
-            end;
-        }
-
-        field(230; "App Name"; Text[150])
-        {
-            Caption = 'App Name';
-            Editable = false;
-            FieldClass = FlowField;
-            CalcFormula = lookup("Published Application".Name where(ID = field("App Id")));
-        }
     }
 
     keys
@@ -104,11 +84,9 @@ table 98990 "Performance Profiler"
 
     local procedure ConfirmOverwrite(tableCaption: Text; profilerCode: Code[20]): Boolean
     var
-        confirmMgt: Codeunit "Confirm Management";
         xyDoesAlreadyExistOverwriteQst: Label '%1 %2 does already exist. Overwrite?', Comment = '%1 = Table Identifier; %2 = Record Identifier';
     begin
-        exit(confirmMgt.GetResponse(
-            StrSubstNo(xyDoesAlreadyExistOverwriteQst, tableCaption, profilerCode), false));
+        exit(Confirm(xyDoesAlreadyExistOverwriteQst, false, tableCaption, profilerCode));
     end;
 
     procedure CopyToArchive(force: Boolean): Boolean
