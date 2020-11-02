@@ -1,0 +1,13 @@
+**/*.app
+**/.vscode/launch.json
+**/.vscode/rad.json
+**/.alcache/*
+**/.altemplates/*
+**/translations/*.g.xlf
+**/permissionsAnalyzer.json
+**/node_modules/
+**/*.js.map
+**/addin/out/*
+**/controladdin/scripts/*
+**/controladdin/stylesheets/*
+**/package-lock.json

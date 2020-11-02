@@ -1,0 +1,57 @@
+{
+	"folders": [
+		{
+			"path": "app",
+			"name": "pp-app"
+		},
+		{
+			"path": "test",
+			"name": "pp-test"
+		}
+	],
+	"settings": {
+		"al.enableCodeAnalysis": true,
+		"al.codeAnalyzers": [
+			"${CodeCop}",
+			"${UICop}",
+			"${PerTenantExtensionCop}"
+		],
+		"al.enableCodeActions": true,
+		"al.packageCachePath": "../.alpackages",
+		"al.assemblyProbingPaths": [
+			"../../dll/bin/Debug"
+		],
+		"al.ruleSetPath": "../.vscode/base.ruleset.json",
+		"CRS.OnSaveAlFileAction": "DoNothing",
+		"CRS.FileNamePattern": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
+		"CRS.FileNamePatternExtensions": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
+		"CRS.FileNamePatternPageCustomizations": " <ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
+		"CRS.RemovePrefixFromFilename": true,
+		"CRS.RenameWithGit": true,
+		"todo-tree.highlights.enabled": true,
+		"todo-tree.filtering.includeGlobs": ["**/*.al", "**/*.md", "**/*.txt", "**/*.ps1"],
+		"files.exclude": {
+			"**/*.dep.app": true,
+			"**/addin/out": false,
+			"**/node_modules": true,
+			"**/package-lock.json": true,
+			"**/rad.json": true
+		},
+		"search.exclude": {
+			"**/*.app": true,
+			"**/.vscode/rad.json": true,
+			"**/.alcache/*": true,
+			"**/.altemplates/*": true,
+			"**/node_modules/": true,
+			"**/addin/out/*": true,
+			"**/controladdin/scripts/*": true,
+			"**/controladdin/stylesheets/*": true,
+			"**/package-lock.json": true,
+			"**/bower_components": true,
+			"**/*.code-search": true
+		}
+	},
+	"extensions": {
+		"recommendations": []
+	}
+}

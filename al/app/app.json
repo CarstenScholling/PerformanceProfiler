@@ -1,0 +1,34 @@
+{
+  "id": "ecbceff2-d123-4b90-8370-2f7dd21b851e",
+  "name": "Performance Profiler",
+  "publisher": "Carsten Scholling",
+  "version": "17.0.1.0",
+  "brief": "A Performance Profiler for Dynamics 365 Business Central.",
+  "description": "A Performance Profiler for Dynamics 365 Business Central.",
+  "privacyStatement": "https://github.com/CarstenScholling",
+  "EULA": "https://github.com/CarstenScholling",
+  "help": "https://github.com/CarstenScholling",
+  "url": "https://github.com/CarstenScholling",
+  "logo": "./resources/logo.png",
+  "contextSensitiveHelpUrl": "https://github.com/CarstenScholling",
+  "screenshots": [],
+  "platform": "17.0.0.0",
+  "application": "17.0.0.0",
+  "internalsVisibleTo": [],
+  "dependencies": [],
+  "idRanges": [
+    {
+      "from": 98990,
+      "to": 98999
+    }
+  ],
+  "showMyCode": true,
+  "runtime": "6.0",
+  "target": "OnPrem",
+  "features": [
+    "TranslationFile"
+  ],
+  "supportedLocales": [
+    "en-US"
+  ]
+}

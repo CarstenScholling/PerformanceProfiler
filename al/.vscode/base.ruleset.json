@@ -1,0 +1,25 @@
+{
+    "name": "Base Ruleset",
+    "rules": [
+        {
+            "id": "AA0005",
+            "action": "Hidden",
+            "justification": "Using begin/end is good coding style"
+        },
+        {
+            "id": "PTE0005",
+            "action": "Hidden",
+            "justification": "OnPrem target is needed to use .NET"
+        }
+    ],
+    "includedRuleSets": [
+        {
+            "path": "../app/.vscode/app.ruleset.json",
+            "action": "Default"
+        },
+        {
+            "path": "../test/.vscode/test.ruleset.json",
+            "action": "Default"
+        }
+    ]
+}

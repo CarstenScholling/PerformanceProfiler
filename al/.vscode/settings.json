@@ -1,0 +1,10 @@
+{
+	"al.codeAnalyzers": [
+		"${CodeCop}",
+		"${UICop}",
+		"${PerTenantExtensionCop}"
+	],
+	"al.assemblyProbingPaths": [
+		"../dll/bin/debug/"
+	]
+}
