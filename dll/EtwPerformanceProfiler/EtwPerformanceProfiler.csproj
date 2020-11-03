@@ -92,9 +92,6 @@
     <None Include="docs\_TraceEventProgrammersGuide.docx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="..\EtwPerformanceProfiler.pfx" />
   </ItemGroup>
