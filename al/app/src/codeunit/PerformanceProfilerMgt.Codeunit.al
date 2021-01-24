@@ -60,6 +60,24 @@ codeunit 98990 "Performance Profiler Mgt."
         Clear(RunningProfilerCode);
     end;
 
+    local procedure WaitForAnalysisData()
+    var
+        progressDialog: Dialog;
+        secondsToWait: Integer;
+        collectingPerformanceDataPleaseWaitTxt: Label 'Collecting performance data\\Please wait #1';
+    begin
+        secondsToWait := 3;
+        progressDialog.Open(collectingPerformanceDataPleaseWaitTxt);
+
+        while secondsToWait > 0 do begin
+            progressDialog.Update(1, StrSubstNo('%1 s', secondsToWait));
+            Sleep(1000);
+            secondsToWait -= 1;
+        end;
+
+        progressDialog.Close();
+    end;
+
     local procedure TransferAnalysis(profilerCode: Code[20]; var performanceProfilerLine: Record "Performance Profiler Line")
     var
         appInfo: ModuleInfo;
