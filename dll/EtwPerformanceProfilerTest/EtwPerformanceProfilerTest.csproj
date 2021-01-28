@@ -42,7 +42,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\EtwPerformanceProfiler.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\EtwPerformanceProfiler.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -64,13 +64,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="..\EtwPerformanceProfiler.snk" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\EtwPerformanceProfiler\EtwPerformanceProfiler.csproj">
       <Project>{614f624c-9661-4da0-ae77-adf69551b310}</Project>
       <Name>EtwPerformanceProfiler</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
