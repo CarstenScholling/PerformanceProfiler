@@ -19,7 +19,8 @@
 		"al.enableCodeActions": true,
 		"al.packageCachePath": "../.alpackages",
 		"al.assemblyProbingPaths": [
-			"../../dll/bin/Debug"
+			"../../dll/bin/Debug",
+			"../../dll/bin/Release"
 		],
 		"al.ruleSetPath": "../.vscode/base.ruleset.json",
 		"CRS.OnSaveAlFileAction": "DoNothing",

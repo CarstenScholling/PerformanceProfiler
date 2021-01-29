@@ -13,7 +13,7 @@ The repository was restructured to contain the AL part, the DLL, and unmodified 
 * Create a zip archive with the contents of the dll\bin\Release folder
 * In Business Central, open Control Add-ins and create an entry with the following values
   * Add-in Name: EtwPerformanceProfiler
-  * Public Key Token: e5b5a7b2def5d864
+  * Public Key Token: c78da9523a37b97f
   * Category: DotNet Interoperability
 * Import the created archive as resource
 * Compile and install the Performance Profiler Business Central app

@@ -6,7 +6,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //--------------------------------------------------------------------------
 
-// Public Key Token: e5b5a7b2def5d864
+// Public Key Token: c78da9523a37b97f
 
 using System.Reflection;
 using System.Runtime.CompilerServices;
