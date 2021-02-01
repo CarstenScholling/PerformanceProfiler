@@ -23,7 +23,7 @@ namespace SessionsActivity
         {
             InitializeComponent();
 
-            var chartDataGeneratingTask = new Task(this.GenerateChartData);
+            var chartDataGeneratingTask = new Task(GenerateChartData);
 
             chartDataGeneratingTask.Start();
         }
@@ -55,21 +55,21 @@ namespace SessionsActivity
 
                 lock (timerLock)
                 {
-                    if (this.removeInactiveSessions.Checked)
+                    if (removeInactiveSessions.Checked)
                     {
-                        this.chartValues = new Dictionary<string, double>();
+                        chartValues = new Dictionary<string, double>();
                     }
                     else
                     {
-                        for (int i = 0; i < this.chartValues.Count; ++i)
+                        for (int i = 0; i < chartValues.Count; ++i)
                         {
-                            this.chartValues[this.chartValues.ElementAt(i).Key] = 0;
+                            chartValues[chartValues.ElementAt(i).Key] = 0;
                         }
                     }
 
                     for (int i = 0; i < xValues.Count; ++i)
                     {
-                        this.chartValues[xValues[i]] = yValues[i];
+                        chartValues[xValues[i]] = yValues[i];
                     }
                 }
 
@@ -84,7 +84,7 @@ namespace SessionsActivity
         {
             lock (timerLock)
             {
-                this.sessionsActivity.Series[0].Points.DataBindXY(this.chartValues.Keys, this.chartValues.Values);
+                sessionsActivity.Series[0].Points.DataBindXY(chartValues.Keys, chartValues.Values);
             }
         }
 

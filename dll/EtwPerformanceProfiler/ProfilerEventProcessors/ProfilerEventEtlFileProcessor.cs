@@ -38,9 +38,9 @@ namespace EtwPerformanceProfiler
         /// <param name="threshold">The filter value in milliseconds. Values greater then this will only be shown.</param>
         public ProfilerEventEtlFileProcessor(string etlFilePath, int threshold)
         {
-            this.multipleSessionsEventAggregator = new MultipleSessionsEventAggregator(threshold);
+            multipleSessionsEventAggregator = new MultipleSessionsEventAggregator(threshold);
 
-            this.etwEventFileProcessor = new EtwEventFileProcessor(etlFilePath, this.multipleSessionsEventAggregator.AddEtwEventToAggregatedCallTree);
+            etwEventFileProcessor = new EtwEventFileProcessor(etlFilePath, multipleSessionsEventAggregator.AddEtwEventToAggregatedCallTree);
         }
 
         /// <summary>
@@ -48,9 +48,9 @@ namespace EtwPerformanceProfiler
         /// </summary>
         internal void ProcessEtlFile()
         {
-            this.etwEventFileProcessor.ProcessEtlFile();
+            etwEventFileProcessor.ProcessEtlFile();
 
-            this.multipleSessionsEventAggregator.FinishAggregation();
+            multipleSessionsEventAggregator.FinishAggregation();
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace EtwPerformanceProfiler
         /// <returns>Flatten call tree.</returns>
         internal IEnumerable<AggregatedEventNode> FlattenCallTree()
         {
-            return this.multipleSessionsEventAggregator.FlattenCallTree();
+            return multipleSessionsEventAggregator.FlattenCallTree();
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace EtwPerformanceProfiler
         /// <returns>Maximum relative time stamp.</returns>
         public double MaxRelativeTimeStamp()
         {
-            return this.multipleSessionsEventAggregator.MaxRelativeTimeStamp();
+            return multipleSessionsEventAggregator.MaxRelativeTimeStamp();
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -88,12 +88,12 @@ namespace EtwPerformanceProfiler
         {
             if (disposing)
             {
-                if (this.isDisposed)
+                if (isDisposed)
                 {
                     return;
                 }
 
-                this.isDisposed = true;
+                isDisposed = true;
             }
         }
     }

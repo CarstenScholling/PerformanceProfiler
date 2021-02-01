@@ -83,7 +83,7 @@ namespace ETWPerformanceProfiler
         internal EtwEventDynamicProcessor(string providerName, Action<TraceEvent> traceEventHandler)
         {
             this.providerName = providerName;
-            this.providerGuid = TraceEventProviders.GetEventSourceGuidFromName(this.providerName);
+            providerGuid = TraceEventProviders.GetEventSourceGuidFromName(providerName);
             this.traceEventHandler = traceEventHandler;
         }
 
@@ -92,7 +92,7 @@ namespace ETWPerformanceProfiler
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -101,34 +101,34 @@ namespace ETWPerformanceProfiler
         /// </summary>
         internal void StartProcessing()
         {
-            this.StopProcessing();
+            StopProcessing();
 
-            this.stopProcessing = false;
+            stopProcessing = false;
 
             // Create new trace session.
-            this.traceEventSession = new TraceEventSession(TraceEventSessionName, null);
-            this.traceEventSession.StopOnDispose = true;
+            traceEventSession = new TraceEventSession(TraceEventSessionName, null);
+            traceEventSession.StopOnDispose = true;
 
             // Open a ETW event source for processing. Provide the name of real time sessing to open.
-            this.traceEventSource = new ETWTraceEventSource(TraceEventSessionName, TraceEventSourceType.Session);
+            traceEventSource = new ETWTraceEventSource(TraceEventSessionName, TraceEventSourceType.Session);
 
-            DynamicTraceEventParser parser = new DynamicTraceEventParser(this.traceEventSource);
+            DynamicTraceEventParser parser = new DynamicTraceEventParser(traceEventSource);
             parser.All += (traceEvent) =>
             {
-                if (this.stopProcessing)
+                if (stopProcessing)
                 {
                     traceEventSource.StopProcessing();
                 }
 
-                this.traceEventHandler(traceEvent);
+                traceEventHandler(traceEvent);
             };
 
             // Add an additional provider represented by providerGuid
-            this.traceEventSession.EnableProvider(this.providerGuid);
+            traceEventSession.EnableProvider(providerGuid);
 
             // Enqueue on the thread pool's global queue. 
             // Processing never completes by itself, but only is Close() method is called.  
-            this.eventProcessingTask = Task.Factory.StartNew(() =>
+            eventProcessingTask = Task.Factory.StartNew(() =>
                 {
                     try
                     {
@@ -149,14 +149,14 @@ namespace ETWPerformanceProfiler
         {
             if (disposing)
             {
-                if (this.isDisposed)
+                if (isDisposed)
                 {
                     return;
                 }
 
-                this.StopProcessing();
+                StopProcessing();
 
-                this.isDisposed = true;
+                isDisposed = true;
             }
         }
 
@@ -167,26 +167,26 @@ namespace ETWPerformanceProfiler
         {
             try
             {
-                if (this.traceEventSource != null)
+                if (traceEventSource != null)
                 {
-                    this.stopProcessing = true;
-                    this.traceEventSource.StopProcessing();
+                    stopProcessing = true;
+                    traceEventSource.StopProcessing();
 
-                    this.eventProcessingTask.Wait();
+                    eventProcessingTask.Wait();
 
-                    this.traceEventSource.Dispose();
-                    this.traceEventSource = null;
+                    traceEventSource.Dispose();
+                    traceEventSource = null;
                 }
             }
             finally
             {
-                if (this.traceEventSession != null)
+                if (traceEventSession != null)
                 {
-                    this.traceEventSession.Dispose();
-                    this.traceEventSource = null;
+                    traceEventSession.Dispose();
+                    traceEventSource = null;
                 }
 
-                this.eventProcessingTask = null;
+                eventProcessingTask = null;
             }
         }
     }

@@ -41,13 +41,13 @@ namespace EtwPerformanceProfiler
         internal void ProcessEtlFile()
         {
             // Open the file
-            using (var source = new ETWTraceEventSource(this.etlFilePath))
+            using (var source = new ETWTraceEventSource(etlFilePath))
             {
                 // DynamicTraceEventParser knows about EventSourceEvents
                 var parser = new DynamicTraceEventParser(source);
 
                 // Set up a callback for every event that prints the event
-                parser.All += this.traceEventHandler;
+                parser.All += traceEventHandler;
 
                 // Read the file, processing the callbacks.  
                 source.Process();

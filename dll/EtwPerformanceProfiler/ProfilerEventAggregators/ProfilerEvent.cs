@@ -132,7 +132,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         internal bool IsNonAlEvent
         {
-            get { return !this.IsAlEvent; }
+            get { return !IsAlEvent; }
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         internal bool IsAlEvent
         {
-            get { return this.ObjectId != 0; }
+            get { return ObjectId != 0; }
         }
 
         /// <summary>
@@ -157,12 +157,12 @@ namespace EtwPerformanceProfiler
 
             ProfilerEvent other = (ProfilerEvent)obj;
 
-            return this.Type.Equals(other.Type)
-                   && this.SessionId.Equals(other.SessionId)
-                   && this.ObjectType.Equals(other.ObjectType)
-                   && this.ObjectId.Equals(other.ObjectId) && this.LineNumber.Equals(other.LineNumber)
-                   && this.StatementName.Equals(other.StatementName) &&
-                   this.TimeStampRelativeMSec.Equals(other.TimeStampRelativeMSec);
+            return Type.Equals(other.Type)
+                   && SessionId.Equals(other.SessionId)
+                   && ObjectType.Equals(other.ObjectType)
+                   && ObjectId.Equals(other.ObjectId) && LineNumber.Equals(other.LineNumber)
+                   && StatementName.Equals(other.StatementName) &&
+                   TimeStampRelativeMSec.Equals(other.TimeStampRelativeMSec);
         }
 
         /// <summary>
@@ -193,8 +193,8 @@ namespace EtwPerformanceProfiler
         /// <returns>A hash code</returns>
         public override int GetHashCode()
         {
-            return this.Type.GetHashCode() ^ this.SessionId.GetHashCode() ^ this.ObjectId.GetHashCode() ^ this.ObjectType.GetHashCode()
-                   ^ this.StatementName.GetHashCode() ^ this.LineNumber.GetHashCode() ^ this.TimeStampRelativeMSec.GetHashCode();
+            return Type.GetHashCode() ^ SessionId.GetHashCode() ^ ObjectId.GetHashCode() ^ ObjectType.GetHashCode()
+                   ^ StatementName.GetHashCode() ^ LineNumber.GetHashCode() ^ TimeStampRelativeMSec.GetHashCode();
         }
     }
 }

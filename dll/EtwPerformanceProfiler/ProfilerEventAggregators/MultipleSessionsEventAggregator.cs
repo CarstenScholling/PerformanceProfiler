@@ -38,7 +38,7 @@ namespace EtwPerformanceProfiler
         {
             this.threshold = threshold;
 
-            this.Initialize();
+            Initialize();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace EtwPerformanceProfiler
         /// <param name="traceEvent">The trace event.</param>
         public void AddEtwEventToAggregatedCallTree(TraceEvent traceEvent)
         {
-            if (this.suspended)
+            if (suspended)
             {
                 return;
             }
@@ -60,11 +60,11 @@ namespace EtwPerformanceProfiler
             int sessionId = GetSessionId(traceEvent);
 
             SingleSessionEventAggregator sessionAggregator;
-            if (!this.sessionAggregators.TryGetValue(sessionId, out sessionAggregator))
+            if (!sessionAggregators.TryGetValue(sessionId, out sessionAggregator))
             {
-                sessionAggregator = new SingleSessionEventAggregator(sessionId, this.threshold);
+                sessionAggregator = new SingleSessionEventAggregator(sessionId, threshold);
                 sessionAggregator.Initialize();
-                this.sessionAggregators[sessionId] = sessionAggregator;
+                sessionAggregators[sessionId] = sessionAggregator;
             }
 
             sessionAggregator.AddEtwEventToAggregatedCallTree(traceEvent);
@@ -76,7 +76,7 @@ namespace EtwPerformanceProfiler
         /// <returns>Maximum relative time stamp.</returns>
         public double MaxRelativeTimeStamp()
         {
-            return this.sessionAggregators.Max(a => a.Value.MaxRelativeTimeStamp());
+            return sessionAggregators.Max(a => a.Value.MaxRelativeTimeStamp());
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Initialize()
         {
-            this.sessionAggregators = new Dictionary<int, SingleSessionEventAggregator>();
+            sessionAggregators = new Dictionary<int, SingleSessionEventAggregator>();
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace EtwPerformanceProfiler
         /// <param name="buildAggregatedCallTree">true if the aggregated call is to be built.</param>
         public void FinishAggregation(bool buildAggregatedCallTree = true)
         {
-            foreach (var singleSessionEventAggregator in this.sessionAggregators)
+            foreach (var singleSessionEventAggregator in sessionAggregators)
             {
                 singleSessionEventAggregator.Value.FinishAggregation(buildAggregatedCallTree);
             }
@@ -105,7 +105,7 @@ namespace EtwPerformanceProfiler
         /// <returns>Flatten call tree.</returns>
         public IEnumerable<AggregatedEventNode> FlattenCallTree()
         {
-            return this.sessionAggregators.SelectMany(singleSessionEventAggregator => singleSessionEventAggregator.Value.FlattenCallTree());
+            return sessionAggregators.SelectMany(singleSessionEventAggregator => singleSessionEventAggregator.Value.FlattenCallTree());
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Suspend()
         {
-            this.suspended = true;
+            suspended = true;
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Resume()
         {
-            this.suspended = false;
+            suspended = false;
         }
     }
 }

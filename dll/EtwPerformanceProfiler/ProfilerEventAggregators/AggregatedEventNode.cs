@@ -134,7 +134,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         internal bool IsNoneAlEvent
         {
-            get { return !this.IsAlEvent; }
+            get { return !IsAlEvent; }
         }
 
         /// <summary>
@@ -144,8 +144,8 @@ namespace EtwPerformanceProfiler
         {
             get
             {
-                Debug.Assert((this.SubType == EventSubType.AlEvent) == (this.ObjectId != 0));
-                return this.SubType == EventSubType.AlEvent;
+                Debug.Assert((SubType == EventSubType.AlEvent) == (ObjectId != 0));
+                return SubType == EventSubType.AlEvent;
             }
         }
              
@@ -155,9 +155,9 @@ namespace EtwPerformanceProfiler
         /// <param name="parent">Parent <see cref="AggregatedEventNode"/>.</param>
         internal AggregatedEventNode(AggregatedEventNode parent = null)
         {
-            this.Children = new List<AggregatedEventNode>();
-            this.Parent = parent;
-            this.Depth = parent != null ? parent.Depth + 1 : 0;
+            Children = new List<AggregatedEventNode>();
+            Parent = parent;
+            Depth = parent != null ? parent.Depth + 1 : 0;
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace EtwPerformanceProfiler
         {
             Debug.Assert(profilerEvent.Type == EventType.Statement || profilerEvent.Type == EventType.StartMethod);
 
-            AggregatedEventNode res = this.Children.Find(e =>
+            AggregatedEventNode res = Children.Find(e =>
                 e.SessionId == profilerEvent.SessionId &&
                 e.ObjectType == profilerEvent.ObjectType &&
                 e.ObjectId == profilerEvent.ObjectId &&
@@ -204,7 +204,7 @@ namespace EtwPerformanceProfiler
                     SubType = profilerEvent.SubType,
                 };
 
-            this.Children.Add(res);
+            Children.Add(res);
 
             ++res.HitCount;
             return res;
@@ -217,23 +217,23 @@ namespace EtwPerformanceProfiler
         /// <returns>The aggregated event node.</returns>
         internal AggregatedEventNode PopEventFromCallStackAndCalculateDuration(double endTimeStampRelativeMSec)
         {
-            double lastDuration = endTimeStampRelativeMSec - this.TimeStampRelativeMSec;
+            double lastDuration = endTimeStampRelativeMSec - TimeStampRelativeMSec;
 
-            if (this.MinDurationMSec <= 0 || this.MinDurationMSec > lastDuration)
+            if (MinDurationMSec <= 0 || MinDurationMSec > lastDuration)
             {
-                this.MinDurationMSec = lastDuration;
+                MinDurationMSec = lastDuration;
             }
 
-            if (this.MaxDurationMSec < lastDuration)
+            if (MaxDurationMSec < lastDuration)
             {
-                this.MaxDurationMSec = lastDuration;
+                MaxDurationMSec = lastDuration;
             }
 
-            this.DurationMSec += lastDuration;
+            DurationMSec += lastDuration;
 
-            this.TimeStampRelativeMSec = endTimeStampRelativeMSec;
+            TimeStampRelativeMSec = endTimeStampRelativeMSec;
 
-            return this.Parent;
+            return Parent;
         }
 
         /// <summary>
@@ -246,17 +246,17 @@ namespace EtwPerformanceProfiler
                 child.CalcMinMaxRelativeTimeStampMSec();
             }
 
-            if (this.Children.Count > 0)
+            if (Children.Count > 0)
             {
-                this.MinRelativeTimeStampMSec = this.Children.Min(n => n.MinRelativeTimeStampMSec);
+                MinRelativeTimeStampMSec = Children.Min(n => n.MinRelativeTimeStampMSec);
 
-                this.MaxRelativeTimeStampMSec = this.Children.Max(n => n.MaxRelativeTimeStampMSec);
+                MaxRelativeTimeStampMSec = Children.Max(n => n.MaxRelativeTimeStampMSec);
             }
             else
             {
-                this.MinRelativeTimeStampMSec = this.TimeStampRelativeMSec;
+                MinRelativeTimeStampMSec = TimeStampRelativeMSec;
 
-                this.MaxRelativeTimeStampMSec = this.TimeStampRelativeMSec;
+                MaxRelativeTimeStampMSec = TimeStampRelativeMSec;
             }
         }
     }

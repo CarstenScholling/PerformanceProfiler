@@ -61,14 +61,14 @@ namespace EtwPerformanceProfiler
         {
             if (sessionId == MultipleSessionsId)
             {
-                this.eventAggregator = new MultipleSessionsEventAggregator(threshold);    
+                eventAggregator = new MultipleSessionsEventAggregator(threshold);    
             }
             else
             {
-                this.eventAggregator = new SingleSessionEventAggregator(sessionId, threshold);    
+                eventAggregator = new SingleSessionEventAggregator(sessionId, threshold);    
             }
 
-            this.etwEventDynamicProcessor = new EtwEventDynamicProcessor(ProviderName, this.eventAggregator.AddEtwEventToAggregatedCallTree);
+            etwEventDynamicProcessor = new EtwEventDynamicProcessor(ProviderName, eventAggregator.AddEtwEventToAggregatedCallTree);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         ~DynamicProfilerEventProcessor()
         {
-            this.Dispose();
+            Dispose();
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -93,9 +93,9 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Start()
         {
-            this.Initialize();
+            Initialize();
 
-            this.etwEventDynamicProcessor.StartProcessing();
+            etwEventDynamicProcessor.StartProcessing();
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Initialize()
         {
-            this.eventAggregator.Initialize();
+            eventAggregator.Initialize();
         }
 
         /// <summary>
@@ -112,13 +112,13 @@ namespace EtwPerformanceProfiler
         /// <param name="buildAggregatedCallTree">true if the aggregated call is to be built.</param>
         public void Stop(bool buildAggregatedCallTree = true)
         {
-            if (this.etwEventDynamicProcessor != null)
+            if (etwEventDynamicProcessor != null)
             {
-                this.etwEventDynamicProcessor.Dispose();
-                this.etwEventDynamicProcessor = null;                
+                etwEventDynamicProcessor.Dispose();
+                etwEventDynamicProcessor = null;                
             }
 
-            this.eventAggregator.FinishAggregation(buildAggregatedCallTree);
+            eventAggregator.FinishAggregation(buildAggregatedCallTree);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace EtwPerformanceProfiler
         /// <returns>Flatten call tree.</returns>
         public IEnumerable<AggregatedEventNode> FlattenCallTree()
         {
-            return this.eventAggregator.FlattenCallTree();
+            return eventAggregator.FlattenCallTree();
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace EtwPerformanceProfiler
         /// <returns>Maximum relative time stamp.</returns>
         public double MaxRelativeTimeStamp()
         {
-            return this.eventAggregator.MaxRelativeTimeStamp();
+            return eventAggregator.MaxRelativeTimeStamp();
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Suspend()
         {
-            this.eventAggregator.Suspend();
+            eventAggregator.Suspend();
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Resume()
         {
-            this.eventAggregator.Resume();
+            eventAggregator.Resume();
         }
 
         /// <summary>
@@ -163,14 +163,14 @@ namespace EtwPerformanceProfiler
         {
             if (disposing)
             {
-                if (this.isDisposed)
+                if (isDisposed)
                 {
                     return;
                 }
 
-                this.Stop(buildAggregatedCallTree: false);
+                Stop(buildAggregatedCallTree: false);
 
-                this.isDisposed = true;
+                isDisposed = true;
             }
         }
     }

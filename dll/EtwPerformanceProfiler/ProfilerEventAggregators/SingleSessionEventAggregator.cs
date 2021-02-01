@@ -63,7 +63,7 @@ namespace EtwPerformanceProfiler
         /// <param name="threshold">The threshold value. The aggregated call tree will only show events greater than this.</param>
         internal SingleSessionEventAggregator(int sessionId, long threshold = 0)
         {
-            this.profilingSessionId = sessionId;
+            profilingSessionId = sessionId;
 
             this.threshold = threshold;
         }
@@ -74,15 +74,15 @@ namespace EtwPerformanceProfiler
         public void Initialize()
         {
             // create the root node for the session
-            this.aggregatedCallTree = new AggregatedEventNode
+            aggregatedCallTree = new AggregatedEventNode
             {
-                StatementName = "Session: " + this.profilingSessionId + ";",
-                SessionId = this.profilingSessionId                
+                StatementName = "Session: " + profilingSessionId + ";",
+                SessionId = profilingSessionId                
             };
 
-            this.currentAggregatedEventNode = aggregatedCallTree;
+            currentAggregatedEventNode = aggregatedCallTree;
 
-            this.previousProfilerEvent = null;
+            previousProfilerEvent = null;
 
         }
 
@@ -94,13 +94,13 @@ namespace EtwPerformanceProfiler
         {
             if (buildAggregatedCallTree)
             {
-                AddProfilerEventToAggregatedCallTree(this.previousProfilerEvent, null, ref this.currentAggregatedEventNode);
+                AddProfilerEventToAggregatedCallTree(previousProfilerEvent, null, ref currentAggregatedEventNode);
 
-                this.aggregatedCallTree.CalcMinMaxRelativeTimeStampMSec();
+                aggregatedCallTree.CalcMinMaxRelativeTimeStampMSec();
 
-                if (this.aggregatedCallTree != null)
+                if (aggregatedCallTree != null)
                 {
-                    this.ReduceTree(this.aggregatedCallTree);
+                    ReduceTree(aggregatedCallTree);
                 }
             }
         }
@@ -112,13 +112,14 @@ namespace EtwPerformanceProfiler
         public IEnumerable<AggregatedEventNode> FlattenCallTree()
         {
             // Update duration on root node
-            this.aggregatedCallTree.DurationMSec = 0;
-            foreach (var aggregatedEventNode in this.aggregatedCallTree.Children)
+            aggregatedCallTree.DurationMSec = 0;
+
+            foreach (var aggregatedEventNode in aggregatedCallTree.Children)
             {
-                this.aggregatedCallTree.DurationMSec += aggregatedEventNode.DurationMSec;
+                aggregatedCallTree.DurationMSec += aggregatedEventNode.DurationMSec;
             }
 
-            return FlattenCallTree(this.aggregatedCallTree);
+            return FlattenCallTree(aggregatedCallTree);
         }
 
         /// <summary>
@@ -127,7 +128,7 @@ namespace EtwPerformanceProfiler
         /// <param name="traceEvent">The trace event.</param>
         public void AddEtwEventToAggregatedCallTree(TraceEvent traceEvent)
         {
-            if (this.suspended)
+            if (suspended)
             {
                 return;
             }
@@ -140,17 +141,17 @@ namespace EtwPerformanceProfiler
             ProfilerEvent? currentProfilerEvent = GetProfilerEvent(traceEvent);
 
             if (currentProfilerEvent == null || 
-                currentProfilerEvent.Value.SessionId != this.profilingSessionId)
+                currentProfilerEvent.Value.SessionId != profilingSessionId)
             {
                 return;
             }
 
-            if (AddProfilerEventToAggregatedCallTree(this.previousProfilerEvent, currentProfilerEvent, ref this.currentAggregatedEventNode))
+            if (AddProfilerEventToAggregatedCallTree(previousProfilerEvent, currentProfilerEvent, ref currentAggregatedEventNode))
             {
-                this.previousProfilerEvent = currentProfilerEvent;
+                previousProfilerEvent = currentProfilerEvent;
             }
 
-            this.previousTraceEvent = traceEvent;
+            previousTraceEvent = traceEvent;
 
         }
 
@@ -160,7 +161,7 @@ namespace EtwPerformanceProfiler
         /// <returns>Maximum relative time stamp.</returns>
         public double MaxRelativeTimeStamp()
         {
-            return this.aggregatedCallTree.MaxRelativeTimeStampMSec;
+            return aggregatedCallTree.MaxRelativeTimeStampMSec;
         }
 
         
@@ -369,7 +370,7 @@ namespace EtwPerformanceProfiler
         /// <returns>reduces the tree by removing all nodes that are below the threshold call tree.</returns>
         private void ReduceTree(AggregatedEventNode rootNode)
         {
-            if (this.threshold <= 0)
+            if (threshold <= 0)
             {
                 return;
             }
@@ -377,7 +378,7 @@ namespace EtwPerformanceProfiler
             for (int index = 0; index < rootNode.Children.Count; index++)
             {
                 AggregatedEventNode node = rootNode.Children[index];
-                if (node.DurationMSec < this.threshold)
+                if (node.DurationMSec < threshold)
                 {
                     node.Children.Clear();
                     rootNode.Children.Remove(node);
@@ -385,7 +386,7 @@ namespace EtwPerformanceProfiler
                 }
                 else
                 {
-                    this.ReduceTree(node);
+                    ReduceTree(node);
                 }
             }
         }
@@ -395,7 +396,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Suspend()
         {
-            this.suspended = true;
+            suspended = true;
         }
 
         /// <summary>
@@ -403,7 +404,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Resume()
         {
-            this.suspended = false;
+            suspended = false;
         }
     }
 }

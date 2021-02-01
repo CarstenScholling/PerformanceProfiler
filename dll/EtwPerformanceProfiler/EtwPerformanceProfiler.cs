@@ -35,7 +35,7 @@ namespace EtwPerformanceProfiler
         {
             get 
             {
-                return this.callTree.Current.SessionId;
+                return callTree.Current.SessionId;
             }
         }
 
@@ -43,7 +43,7 @@ namespace EtwPerformanceProfiler
         {
             get 
             {
-                return this.callTree.Current.Tenant;
+                return callTree.Current.Tenant;
             }
         }
 
@@ -51,21 +51,21 @@ namespace EtwPerformanceProfiler
 		{
 			get
 			{
-				return this.callTree.Current.UserName;
+				return callTree.Current.UserName;
 			}
 		}
 		public Guid CurrentAppId
 		{
 			get
 			{
-				return this.callTree.Current.AppId;
+				return callTree.Current.AppId;
 			}
 		}
 		public string CurrentAppInfo
 		{
 			get
 			{
-				return this.callTree.Current.AppInfo;
+				return callTree.Current.AppInfo;
 			}
 		}
 
@@ -76,7 +76,7 @@ namespace EtwPerformanceProfiler
         {
             get
             {
-                return this.callTree.Current.ObjectId;
+                return callTree.Current.ObjectId;
             }
         }
 
@@ -87,7 +87,7 @@ namespace EtwPerformanceProfiler
         {
             get
             {
-                return this.callTree.Current.StatementName;
+                return callTree.Current.StatementName;
             }
         }
 
@@ -98,7 +98,7 @@ namespace EtwPerformanceProfiler
         {
             get
             {
-                return this.callTree.Current.LineNo;
+                return callTree.Current.LineNo;
             }
         }
 
@@ -109,7 +109,7 @@ namespace EtwPerformanceProfiler
         {
             get
             {
-                return (long)this.callTree.Current.DurationMSec;
+                return (long)callTree.Current.DurationMSec;
             }
         }
 
@@ -120,7 +120,7 @@ namespace EtwPerformanceProfiler
         {
             get
             {
-                return (long)this.callTree.Current.MinDurationMSec;
+                return (long)callTree.Current.MinDurationMSec;
             }
         }
 
@@ -131,7 +131,7 @@ namespace EtwPerformanceProfiler
         {
             get
             {
-                return (long)this.callTree.Current.MaxDurationMSec;
+                return (long)callTree.Current.MaxDurationMSec;
             }
         }
 
@@ -142,7 +142,7 @@ namespace EtwPerformanceProfiler
         {
             get
             {
-                return (long)(this.maxRelativeTimeStamp - (long)this.callTree.Current.MaxRelativeTimeStampMSec);
+                return (long)(maxRelativeTimeStamp - (long)callTree.Current.MaxRelativeTimeStampMSec);
             }
         }
 
@@ -153,7 +153,7 @@ namespace EtwPerformanceProfiler
         {
             get
             {
-                return this.callTree.Current.Depth;
+                return callTree.Current.Depth;
             }
         }
 
@@ -164,7 +164,7 @@ namespace EtwPerformanceProfiler
 		{
 			get
 			{
-				return this.callTree.Current.ObjectType;
+				return callTree.Current.ObjectType;
 			}
 		}
 
@@ -175,7 +175,7 @@ namespace EtwPerformanceProfiler
         {
             get
             {
-                return this.callTree.Current.HitCount;
+                return callTree.Current.HitCount;
             }
         }
 
@@ -186,9 +186,9 @@ namespace EtwPerformanceProfiler
         /// <param name="threshold">The filter value in milliseconds. Values greater then this will only be shown.</param>
         public void Start(int sessionId, int threshold = 0)
         {
-            this.dynamicProfilerEventProcessor = new DynamicProfilerEventProcessor(sessionId, threshold);
+            dynamicProfilerEventProcessor = new DynamicProfilerEventProcessor(sessionId, threshold);
 
-            this.dynamicProfilerEventProcessor.Start();
+            dynamicProfilerEventProcessor.Start();
         }
 
         /// <summary>
@@ -196,11 +196,11 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Stop()
         {
-            this.dynamicProfilerEventProcessor.Stop();
+            dynamicProfilerEventProcessor.Stop();
 
-            this.callTree = this.dynamicProfilerEventProcessor.FlattenCallTree().GetEnumerator();
+            callTree = dynamicProfilerEventProcessor.FlattenCallTree().GetEnumerator();
 
-            this.maxRelativeTimeStamp = this.dynamicProfilerEventProcessor.MaxRelativeTimeStamp();
+            maxRelativeTimeStamp = dynamicProfilerEventProcessor.MaxRelativeTimeStamp();
         }
 
         /// <summary>
@@ -210,19 +210,19 @@ namespace EtwPerformanceProfiler
         /// <param name="threshold">The filter value in milliseconds. Values greater then this will only be shown.</param>
         public void AnalyzeETLFile(string etlFilePath, int threshold = 0)
         {
-            if (this.dynamicProfilerEventProcessor != null)
+            if (dynamicProfilerEventProcessor != null)
             {
-                this.dynamicProfilerEventProcessor.Dispose();
-                this.dynamicProfilerEventProcessor = null;
+                dynamicProfilerEventProcessor.Dispose();
+                dynamicProfilerEventProcessor = null;
             }
 
             using (ProfilerEventEtlFileProcessor profilerEventEtlFileProcessor = new ProfilerEventEtlFileProcessor(etlFilePath, threshold))
             {
                 profilerEventEtlFileProcessor.ProcessEtlFile();
 
-                this.callTree = profilerEventEtlFileProcessor.FlattenCallTree().GetEnumerator();
+                callTree = profilerEventEtlFileProcessor.FlattenCallTree().GetEnumerator();
 
-                this.maxRelativeTimeStamp = profilerEventEtlFileProcessor.MaxRelativeTimeStamp();
+                maxRelativeTimeStamp = profilerEventEtlFileProcessor.MaxRelativeTimeStamp();
             }
         }
 
@@ -232,7 +232,7 @@ namespace EtwPerformanceProfiler
         /// <returns></returns>
         public bool CallTreeMoveNext()
         {
-            return this.callTree.MoveNext();
+            return callTree.MoveNext();
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -252,12 +252,12 @@ namespace EtwPerformanceProfiler
         {
             if (disposing)
             {
-                if (this.dynamicProfilerEventProcessor != null)
+                if (dynamicProfilerEventProcessor != null)
                 {
-                    this.dynamicProfilerEventProcessor.Dispose();
+                    dynamicProfilerEventProcessor.Dispose();
                 }
 
-                this.callTree = null;
+                callTree = null;
             }
         }
     }
