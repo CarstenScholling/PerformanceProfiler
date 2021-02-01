@@ -32,7 +32,7 @@ namespace EtwPerformanceProfiler
         /// </summary>
         internal EventAggregator()
         {
-            this.statementCache = new Dictionary<string, string>();
+            statementCache = new Dictionary<string, string>();
 			payloadCache = new Dictionary<string, List<string>>();
         }
 
@@ -44,14 +44,12 @@ namespace EtwPerformanceProfiler
         /// <returns>The cached string value.</returns>
         internal string GetStatementFromTheCache(string statement)
         {
-            string cachedStatement;
-
-            if (this.statementCache.TryGetValue(statement, out cachedStatement))
+            if (statementCache.TryGetValue(statement, out string cachedStatement))
             {
                 return cachedStatement;
             }
 
-            this.statementCache[statement] = statement;
+            statementCache[statement] = statement;
 
             return statement;
         }
@@ -246,22 +244,26 @@ namespace EtwPerformanceProfiler
                     return null;
             }
 
-            return new ProfilerEvent
+            if (!string.IsNullOrEmpty(statement))
             {
-                SessionId = sessionId,
-				UserName = userName,
-				Tenant = tenant,
-				AppId = appId,
-				AppInfo = appInfo,
-                Type = eventType,
-                SubType = eventSubType,
-                ObjectType = objectType,
-                ObjectId = objectId,
-                LineNumber = lineNo,
-                StatementName = GetStatementFromTheCache(statement),
-                TimeStampRelativeMSec = traceEvent.TimeStampRelativeMSec
-            };
+                return new ProfilerEvent
+                {
+                    SessionId = sessionId,
+                    UserName = userName,
+                    Tenant = tenant,
+                    AppId = appId,
+                    AppInfo = appInfo,
+                    Type = eventType,
+                    SubType = eventSubType,
+                    ObjectType = objectType,
+                    ObjectId = objectId,
+                    LineNumber = lineNo,
+                    StatementName = GetStatementFromTheCache(statement),
+                    TimeStampRelativeMSec = traceEvent.TimeStampRelativeMSec
+                };
+            }
 
+            return null;
         }
 
     }
