@@ -1,0 +1,10 @@
+{
+	"name": "Test Ruleset",
+	"rules": [
+		{
+			"id": "AA0072",
+			"action": "Hidden",
+			"justification": "Wrong Implementation of Name checks"
+		}
+	]
+}

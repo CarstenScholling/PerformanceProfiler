@@ -1,21 +1,27 @@
-Dynamics NAV Application Profiler
-=================================
-Sample for profiling Microsoft Dynamics NAV Application code. Consumes NAV Execution Events from ETW.
+# Business Central Application Profiler
 
-The sample consists of C# code for listening to NAV Server ETW events and Application objects for storing the events in a Table and presenting the results in a Page.
+This is an Application Profiler for Business Central. Originally written for Dynamics NAV and maintained by David Worthington, this port was updated to an (OnPrem) app and working with Business Central 15 onwards.
+
+The code is based on Event Tracing for Windows (ETW) and consumes events raised from a Business Central or Dynamics NAV server.
+
+The repository was restructured to contain the AL part, the DLL, and unmodified C/AL source code.
 
 **Disclamer:** Use at own risk. No warranty or Guaranty. No support.
 
-Installing and Running
-=================================
-* Create a folder for the Profiler in the Client and Server Addins folder.
-  * Client Addins Folder e.g.: C:\Program Files (x86)\Microsoft Dynamics NAV\80\RoleTailored Client\Add-ins
-  * Server Addins Folder on the Service Tier Server e.g.: C:\Program Files\Microsoft Dynamics NAV\80\Service\Add-ins
-* Copy all files from the project output (~\EtwPerformanceProfiler\bin\Debug) into the Addins folders.
-* Import and compile the application objects from the **App Objects** folder.
-* Open the **Microsoft Dynamics NAV 2013 R2 Administration** or **Microsoft Dynamics NAV 2015 Administration** on the Server and change **Enable Full C/AL Function Tracing** to **Yes**. This specifies whether full C/AL method tracing is enabled when an ETW session is performed.
-* Restart the Service Tier.
-* Run the Page 50000.
+## Installing and Running
+* Compile the dll (project EtwPerformanceProfiler)
+* Create a zip archive with the contents of the dll\bin\Release folder
+* In Business Central, open Control Add-ins and create an entry with the following values
+  * Add-in Name: EtwPerformanceProfiler
+  * Public Key Token: c78da9523a37b97f
+  * Category: DotNet Interoperability
+* Import the created archive as resource
+* Compile and install the Performance Profiler Business Central app
+* Search for 'Performance Profiler'
 
-If you want to analyze ETL file here is an article, which describes how to collect ETL file for Dynamics NAV.
-http://msdn.microsoft.com/en-us/library/dn271709(v=nav.71).aspx
+## Change Log
+- Moved ETW Provider Name and Session Name configuration to DLL app.config
+- Added UserName, Tenant, AppId, AppInfo to Event classes
+- Added AL app
+- Restructured repository
+
